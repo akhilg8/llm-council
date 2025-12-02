@@ -14,10 +14,11 @@ COUNCIL_MODELS = [
     "google/gemini-3-pro-preview",
     "z-ai/glm-4.6",
     "deepseek/deepseek-v3.2",
+    "x-ai/grok-4.1-fast:free",
 ]
 
 # Chairman model - synthesizes final response
-CHAIRMAN_MODEL = "anthropic/claude-opus-4.5"
+CHAIRMAN_MODEL = "google/gemini-3-pro-preview"
 
 # OpenRouter API endpoint
 OPENROUTER_API_URL = "https://openrouter.ai/api/v1/chat/completions"
