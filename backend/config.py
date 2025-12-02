@@ -12,12 +12,12 @@ OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
 COUNCIL_MODELS = [
     "openai/gpt-5.1",
     "google/gemini-3-pro-preview",
-    "anthropic/claude-sonnet-4.5",
+    "z-ai/glm-4.6",
     "deepseek/deepseek-v3.2",
 ]
 
 # Chairman model - synthesizes final response
-CHAIRMAN_MODEL = "google/gemini-3-pro-preview"
+CHAIRMAN_MODEL = "anthropic/claude-opus-4.5"
 
 # OpenRouter API endpoint
 OPENROUTER_API_URL = "https://openrouter.ai/api/v1/chat/completions"
