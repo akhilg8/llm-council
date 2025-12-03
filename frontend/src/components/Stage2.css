@@ -1,12 +1,14 @@
 .stage2 {
-  background: #fafafa;
+  background: linear-gradient(135deg, rgba(255, 0, 255, 0.2), rgba(0, 243, 255, 0.2));
 }
 
 .stage2 h4 {
-  margin: 20px 0 8px 0;
-  color: #333;
-  font-size: 14px;
-  font-weight: 600;
+  margin: 24px 0 12px 0;
+  color: var(--neon-pink);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
 }
 
 .stage2 h4:first-of-type {
@@ -14,24 +16,35 @@
 }
 
 .stage-description {
-  margin: 0 0 12px 0;
-  color: #666;
+  margin: 0 0 16px 0;
+  color: var(--text-secondary);
   font-size: 13px;
   line-height: 1.5;
+  font-family: monospace;
 }
 
 .aggregate-rankings {
-  background: #f0f7ff;
-  padding: 16px;
-  border-radius: 8px;
-  margin-bottom: 20px;
-  border: 2px solid #d0e7ff;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 20px;
+  border: 1px solid var(--neon-blue);
+  margin-bottom: 24px;
+  position: relative;
+}
+
+.aggregate-rankings::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: var(--neon-blue);
+  box-shadow: 0 0 10px var(--neon-blue);
 }
 
 .aggregate-rankings h4 {
-  margin: 0 0 12px 0;
-  color: #2a7ae2;
-  font-size: 15px;
+  color: var(--neon-blue);
+  text-shadow: 0 0 5px rgba(0, 243, 255, 0.5);
 }
 
 .aggregate-list {
@@ -43,111 +56,122 @@
 .aggregate-item {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 10px;
-  background: #ffffff;
-  border-radius: 6px;
-  border: 1px solid #d0e7ff;
+  gap: 16px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--glass-border);
+  transition: all 0.2s;
+}
+
+.aggregate-item:hover {
+  background: rgba(0, 243, 255, 0.05);
+  border-color: var(--neon-blue);
 }
 
 .rank-position {
-  color: #2a7ae2;
+  color: var(--neon-blue);
   font-weight: 700;
-  font-size: 16px;
-  min-width: 35px;
+  font-size: 20px;
+  min-width: 40px;
+  text-align: center;
+  text-shadow: 0 0 10px rgba(0, 243, 255, 0.5);
 }
 
 .rank-model {
   flex: 1;
-  color: #333;
+  color: var(--text-primary);
   font-family: monospace;
   font-size: 14px;
   font-weight: 500;
 }
 
 .rank-score {
-  color: #666;
-  font-size: 13px;
+  color: var(--text-secondary);
+  font-size: 12px;
   font-family: monospace;
 }
 
 .stage2 .tabs {
   display: flex;
-  gap: 8px;
-  margin-bottom: 16px;
+  gap: 4px;
+  margin-bottom: 20px;
   flex-wrap: wrap;
 }
 
 .stage2 .tab {
   padding: 8px 16px;
-  background: #ffffff;
-  border: 1px solid #d0d0d0;
-  border-radius: 6px 6px 0 0;
-  color: #666;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid transparent;
+  color: var(--text-secondary);
   cursor: pointer;
-  font-size: 14px;
+  font-size: 12px;
+  font-family: monospace;
   transition: all 0.2s;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .stage2 .tab:hover {
-  background: #f0f0f0;
-  color: #333;
-  border-color: #4a90e2;
+  background: rgba(255, 0, 255, 0.1);
+  color: var(--neon-pink);
+  border-color: rgba(255, 0, 255, 0.3);
 }
 
 .stage2 .tab.active {
-  background: #ffffff;
-  color: #4a90e2;
-  border-color: #4a90e2;
-  border-bottom-color: #ffffff;
-  font-weight: 600;
+  background: rgba(255, 0, 255, 0.15);
+  color: var(--neon-pink);
+  border-color: var(--neon-pink);
+  box-shadow: 0 0 10px rgba(255, 0, 255, 0.1);
 }
 
 .stage2 .tab-content {
-  background: #ffffff;
-  padding: 16px;
-  border-radius: 6px;
-  border: 1px solid #e0e0e0;
-  margin-bottom: 20px;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 20px;
+  border: 1px solid var(--glass-border);
+  margin-bottom: 24px;
 }
 
 .ranking-model {
-  color: #888;
+  color: var(--neon-purple);
   font-size: 12px;
   font-family: monospace;
   margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .ranking-content {
-  color: #333;
+  color: var(--text-primary);
   line-height: 1.6;
   font-size: 14px;
 }
 
 .parsed-ranking {
-  margin-top: 16px;
-  padding-top: 16px;
-  border-top: 2px solid #e0e0e0;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px dashed var(--glass-border);
 }
 
 .parsed-ranking strong {
-  color: #2a7ae2;
-  font-size: 13px;
+  color: var(--neon-pink);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .parsed-ranking ol {
-  margin: 8px 0 0 0;
+  margin: 12px 0 0 0;
   padding-left: 24px;
-  color: #333;
+  color: var(--text-primary);
 }
 
 .parsed-ranking li {
-  margin: 4px 0;
+  margin: 6px 0;
   font-family: monospace;
   font-size: 13px;
 }
 
 .rank-count {
-  color: #999;
-  font-size: 12px;
+  color: var(--text-secondary);
+  font-size: 11px;
 }
