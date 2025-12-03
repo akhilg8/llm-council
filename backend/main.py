@@ -52,6 +52,24 @@ class Conversation(BaseModel):
     messages: List[Dict[str, Any]]
 
 
+def get_llm_messages(conversation: Dict[str, Any]) -> List[Dict[str, str]]:
+    """
+    Convert conversation storage format to LLM message format.
+    """
+    messages = []
+    for msg in conversation["messages"]:
+        if msg["role"] == "user":
+            messages.append({"role": "user", "content": msg["content"]})
+        elif msg["role"] == "assistant":
+            # Use the Chairman's synthesized response as the assistant's content
+            if "stage3" in msg and "response" in msg["stage3"]:
+                messages.append({"role": "assistant", "content": msg["stage3"]["response"]})
+            else:
+                # Fallback if no stage3 response (shouldn't happen usually)
+                messages.append({"role": "assistant", "content": "Error: Missing response."})
+    return messages
+
+
 @app.get("/")
 async def root():
     """Health check endpoint."""
@@ -98,6 +116,10 @@ async def send_message(conversation_id: str, request: SendMessageRequest):
     # Add user message
     storage.add_user_message(conversation_id, request.content)
 
+    # Reload conversation to include the new user message
+    conversation = storage.get_conversation(conversation_id)
+    llm_messages = get_llm_messages(conversation)
+
     # If this is the first message, generate a title
     if is_first_message:
         title = await generate_conversation_title(request.content)
@@ -105,7 +127,7 @@ async def send_message(conversation_id: str, request: SendMessageRequest):
 
     # Run the 3-stage council process
     stage1_results, stage2_results, stage3_result, metadata = await run_full_council(
-        request.content
+        llm_messages
     )
 
     # Add assistant message with all stages
@@ -144,6 +166,10 @@ async def send_message_stream(conversation_id: str, request: SendMessageRequest)
             # Add user message
             storage.add_user_message(conversation_id, request.content)
 
+            # Reload conversation to include the new user message
+            current_conversation = storage.get_conversation(conversation_id)
+            llm_messages = get_llm_messages(current_conversation)
+
             # Start title generation in parallel (don't await yet)
             title_task = None
             if is_first_message:
@@ -151,18 +177,18 @@ async def send_message_stream(conversation_id: str, request: SendMessageRequest)
 
             # Stage 1: Collect responses
             yield f"data: {json.dumps({'type': 'stage1_start'})}\n\n"
-            stage1_results = await stage1_collect_responses(request.content)
+            stage1_results = await stage1_collect_responses(llm_messages)
             yield f"data: {json.dumps({'type': 'stage1_complete', 'data': stage1_results})}\n\n"
 
             # Stage 2: Collect rankings
             yield f"data: {json.dumps({'type': 'stage2_start'})}\n\n"
-            stage2_results, label_to_model = await stage2_collect_rankings(request.content, stage1_results)
+            stage2_results, label_to_model = await stage2_collect_rankings(llm_messages, stage1_results)
             aggregate_rankings = calculate_aggregate_rankings(stage2_results, label_to_model)
             yield f"data: {json.dumps({'type': 'stage2_complete', 'data': stage2_results, 'metadata': {'label_to_model': label_to_model, 'aggregate_rankings': aggregate_rankings}})}\n\n"
 
             # Stage 3: Synthesize final answer
             yield f"data: {json.dumps({'type': 'stage3_start'})}\n\n"
-            stage3_result = await stage3_synthesize_final(request.content, stage1_results, stage2_results)
+            stage3_result = await stage3_synthesize_final(llm_messages, stage1_results, stage2_results)
             yield f"data: {json.dumps({'type': 'stage3_complete', 'data': stage3_result})}\n\n"
 
             # Wait for title generation if it was started
@@ -184,6 +210,8 @@ async def send_message_stream(conversation_id: str, request: SendMessageRequest)
 
         except Exception as e:
             # Send error event
+            import traceback
+            traceback.print_exc()
             yield f"data: {json.dumps({'type': 'error', 'message': str(e)})}\n\n"
 
     return StreamingResponse(

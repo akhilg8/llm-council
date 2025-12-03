@@ -1,65 +1,87 @@
 .stage {
   margin: 24px 0;
+  padding: 2px; /* For border gradient */
+  background: linear-gradient(135deg, rgba(0, 243, 255, 0.2), rgba(188, 19, 254, 0.2));
+  clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);
+}
+
+.stage-content-wrapper {
+  background: var(--cyber-black);
   padding: 20px;
-  background: #fafafa;
-  border-radius: 8px;
-  border: 1px solid #e0e0e0;
+  clip-path: polygon(14px 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%, 0 14px);
 }
 
 .stage-title {
-  margin: 0 0 16px 0;
-  color: #333;
-  font-size: 16px;
-  font-weight: 600;
+  margin: 0 0 20px 0;
+  color: var(--neon-blue);
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.stage-title::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, var(--neon-blue), transparent);
 }
 
 .tabs {
   display: flex;
-  gap: 8px;
-  margin-bottom: 16px;
+  gap: 4px;
+  margin-bottom: 20px;
   flex-wrap: wrap;
 }
 
 .tab {
   padding: 8px 16px;
-  background: #ffffff;
-  border: 1px solid #d0d0d0;
-  border-radius: 6px 6px 0 0;
-  color: #666;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid transparent;
+  color: var(--text-secondary);
   cursor: pointer;
-  font-size: 14px;
+  font-size: 12px;
+  font-family: monospace;
   transition: all 0.2s;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .tab:hover {
-  background: #f0f0f0;
-  color: #333;
-  border-color: #4a90e2;
+  background: rgba(0, 243, 255, 0.1);
+  color: var(--neon-blue);
+  border-color: rgba(0, 243, 255, 0.3);
 }
 
 .tab.active {
-  background: #ffffff;
-  color: #4a90e2;
-  border-color: #4a90e2;
-  border-bottom-color: #ffffff;
-  font-weight: 600;
+  background: rgba(0, 243, 255, 0.15);
+  color: var(--neon-blue);
+  border-color: var(--neon-blue);
+  box-shadow: 0 0 10px rgba(0, 243, 255, 0.1);
 }
 
 .tab-content {
-  background: #ffffff;
-  padding: 16px;
-  border-radius: 6px;
-  border: 1px solid #e0e0e0;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 20px;
+  border: 1px solid var(--glass-border);
 }
 
 .model-name {
-  color: #888;
+  color: var(--neon-purple);
   font-size: 12px;
-  margin-bottom: 12px;
+  margin-bottom: 16px;
   font-family: monospace;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-bottom: 1px solid var(--glass-border);
+  padding-bottom: 8px;
 }
 
 .response-text {
-  color: #333;
+  color: var(--text-primary);
   line-height: 1.6;
+  font-size: 14px;
 }
